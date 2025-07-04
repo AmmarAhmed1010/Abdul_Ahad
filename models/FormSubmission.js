@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+// Mongoose removed. FormSubmission model removed. Use another ORM or driver if needed.
 
 const formSubmissionSchema = new mongoose.Schema({
   name: {

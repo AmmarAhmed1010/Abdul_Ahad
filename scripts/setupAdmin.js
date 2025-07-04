@@ -1,5 +1,5 @@
 require('dotenv').config();
-const mongoose = require('mongoose');
+// Mongoose removed. Use another driver or ORM for admin setup if needed.
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 

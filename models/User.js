@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+// Mongoose removed. User model removed. Use another ORM or driver if needed.
 import bcrypt from 'bcryptjs';
 
 const userSchema = new mongoose.Schema({
