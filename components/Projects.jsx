@@ -1,3 +1,7 @@
+'use client';
+
+import { motion } from 'framer-motion';
+
 const projects = [
   {
     name: "Apple Clone",
@@ -78,53 +82,117 @@ const projects = [
   },
 ];
 
+// Animation variants
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.3
+    }
+  }
+};
+
+const item = {
+  hidden: { opacity: 0, y: 30 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.25, 0.1, 0.25, 1]
+    }
+  }
+};
+
 export default function Projects() {
   return (
-    <section id="projects" className="py-20 bg-gray-900 text-white">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl md:text-4xl font-bold mb-10">My Projects</h2>
-        <div className="grid md:grid-cols-2 gap-8">
+    <section id="projects" className="relative py-24 bg-gradient-to-br from-gray-900 via-gray-900 to-blue-950 text-white overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 rounded-full filter blur-3xl opacity-20 animate-blob"></div>
+        <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-purple-500/10 rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-4xl md:text-5xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-300"
+        >
+          My Projects
+        </motion.h2>
+        <motion.p 
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-lg text-gray-300 text-center mb-16 max-w-2xl mx-auto"
+        >
+          Some of my recent work and side projects
+        </motion.p>
+
+        <motion.div 
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
           {projects.map((project, idx) => (
-            <div
+            <motion.div
               key={project.name + idx}
-              className="bg-gray-800 rounded-lg p-6 shadow-md flex flex-col justify-between"
+              variants={item}
+              whileHover={{ y: -10, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="group relative h-full"
             >
-              <div>
-                <h3 className="text-2xl font-semibold mb-2">{project.name}</h3>
-                <p className="text-gray-300 mb-4">{project.description}</p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag, i) => (
-                    <span
-                      key={tag.name + i}
-                      className={
-                        "inline-block px-3 py-1 rounded-full text-xs font-semibold " +
-                        (tag.color === "blue-text-gradient"
-                          ? "bg-gradient-to-r from-blue-600 to-blue-400 text-white"
-                          : tag.color === "green-text-gradient"
-                          ? "bg-gradient-to-r from-green-600 to-green-400 text-white"
-                          : tag.color === "pink-text-gradient"
-                          ? "bg-gradient-to-r from-pink-600 to-pink-400 text-white"
-                          : "bg-gray-700 text-white")
-                      }
-                    >
-                      #{tag.name}
-                    </span>
-                  ))}
+              <div className="absolute inset-0.5 rounded-2xl bg-gradient-to-br from-blue-900/20 to-cyan-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6 h-full flex flex-col group-hover:border-blue-500/30 transition-all duration-300">
+                <div className="flex-1">
+                  <h3 className="text-2xl font-semibold mb-3 group-hover:text-blue-400 transition-colors duration-300">{project.name}</h3>
+                  <p className="text-gray-300 mb-5 leading-relaxed">{project.description}</p>
+                  <div className="flex flex-wrap gap-2 mb-5">
+                    {project.tags.map((tag, i) => (
+                      <motion.span
+                        key={tag.name + i}
+                        whileHover={{ scale: 1.05 }}
+                        className={
+                          "inline-block px-3 py-1 rounded-full text-xs font-semibold shadow-lg " +
+                          (tag.color === "blue-text-gradient"
+                            ? "bg-gradient-to-r from-blue-600/80 to-blue-400/80 text-white"
+                            : tag.color === "green-text-gradient"
+                            ? "bg-gradient-to-r from-green-600/80 to-green-400/80 text-white"
+                            : tag.color === "pink-text-gradient"
+                            ? "bg-gradient-to-r from-pink-600/80 to-pink-400/80 text-white"
+                            : "bg-gray-700/80 text-white")
+                        }
+                      >
+                        #{tag.name}
+                      </motion.span>
+                    ))}
+                  </div>
+                </div>
+                <div className="mt-auto pt-4 border-t border-gray-700/50 group-hover:border-gray-600/50 transition-colors duration-300">
+                  <a
+                    href={project.source_code_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-blue-400 hover:text-blue-200 group-hover:translate-x-1 transition-all duration-300 text-sm font-medium"
+                  >
+                    View Project
+                    <svg className="w-4 h-4 ml-1.5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </a>
                 </div>
               </div>
-              <div className="mt-auto">
-                <a
-                  href={project.source_code_link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block mt-2 text-blue-400 hover:text-blue-200 underline text-sm"
-                >
-                  View Project
-                </a>
-              </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

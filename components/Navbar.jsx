@@ -12,6 +12,44 @@ export default function Navbar() {
   // Clear refs on rerender to avoid stale references
   linksRef.current = [];
   const socialRef = useRef();
+  const [activeSection, setActiveSection] = useState('');
+
+  // Update active section on scroll
+  useEffect(() => {
+    const sections = ['home', 'about', 'projects', 'skills', 'contact'];
+    
+    const handleScroll = () => {
+      // Navbar background animation
+      if (window.scrollY > 50) {
+        navRef.current.classList.add('bg-gray-900/90', 'backdrop-blur-sm');
+        navRef.current.classList.remove('bg-transparent');
+      } else {
+        navRef.current.classList.remove('bg-gray-900/90', 'backdrop-blur-sm');
+      }
+
+      // Active section detection
+      const scrollPosition = window.scrollY + 100; // Adjust offset as needed
+      
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const { offsetTop, offsetHeight } = element;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    // Initial check
+    handleScroll();
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
 
   // Add scroll and typing effect
@@ -121,17 +159,23 @@ export default function Navbar() {
 
           {/* Navigation Links - Desktop */}
           <div className="hidden md:flex text-white items-center gap-7 lg:gap-10">
-            {['about', 'projects', 'skills', 'contact'].map((item) => (
+            {['home', 'about', 'projects', 'skills', 'contact'].map((item) => (
               <Link
                 key={item}
                 href={`#${item}`}
-                className="relative group text-white hover:text-blue-400 focus-visible:text-cyan-400 transition-colors duration-300 font-mono text-base uppercase tracking-wider px-2 py-1 rounded-md focus-visible:ring-2 focus-visible:ring-blue-400 outline-none"
+                className={`relative group transition-colors duration-300 font-mono text-base uppercase tracking-wider px-2 py-1 rounded-md focus-visible:ring-2 focus-visible:ring-blue-400 outline-none ${
+                  activeSection === item 
+                    ? 'text-cyan-400' 
+                    : 'text-white hover:text-blue-400 focus-visible:text-cyan-400'
+                }`}
                 aria-label={item.charAt(0).toUpperCase() + item.slice(1)}
                 tabIndex={0}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-cyan-400 transition-all duration-300 group-hover:w-full"></span>
+                <span className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-blue-400 to-cyan-400 transition-all duration-300 ${
+                  activeSection === item ? 'w-full' : 'w-0 group-hover:w-full'
+                }`}></span>
               </Link>
             ))}
           </div>
@@ -158,54 +202,35 @@ export default function Navbar() {
                     <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                   </button>
                   {/* Nav Links */}
-                  {['about', 'projects', 'skills', 'contact'].map((item, idx, arr) => (
+                  {['home', 'about', 'projects', 'skills', 'contact'].map((item, idx, arr) => (
                     <div key={item} className="w-full flex flex-col items-center">
-                      <Link
-                        href={`#${item}`}
-                        className="w-full text-center text-white hover:text-blue-400 focus-visible:text-cyan-400 transition-all duration-200 font-mono text-xl font-semibold uppercase tracking-wider px-8 py-3 rounded-xl focus-visible:ring-2 focus-visible:ring-blue-400 outline-none shadow-md hover:bg-blue-900/20 active:scale-95"
-                        aria-label={item.charAt(0).toUpperCase() + item.slice(1)}
-                        tabIndex={0}
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        {item}
-                      </Link>
+                      <div className="relative w-full group">
+                        <div className={`absolute inset-0 bg-gradient-to-r from-blue-900/30 to-cyan-900/20 rounded-xl origin-left transition-transform duration-300 ease-out ${
+                          activeSection === item ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                        }`} />
+                        <Link
+                          href={`#${item}`}
+                          className={`relative block w-full text-center transition-all duration-300 font-mono text-xl font-semibold uppercase tracking-wider px-8 py-3 rounded-xl focus-visible:ring-2 focus-visible:ring-blue-400 outline-none ${
+                            activeSection === item
+                              ? 'text-cyan-400 scale-105 translate-x-2'
+                              : 'text-white hover:text-blue-300 focus-visible:text-cyan-400 group-hover:translate-x-2 group-hover:scale-[1.02]'
+                          } active:scale-95`}
+                          aria-label={item.charAt(0).toUpperCase() + item.slice(1)}
+                          tabIndex={0}
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          <span className="relative z-10 flex items-center justify-center gap-2">
+                            <span className="opacity-0 group-hover:opacity-100 text-blue-400 transition-opacity duration-300">
+                              &gt;
+                            </span>
+                            {item}
+                          </span>
+                        </Link>
+                      </div>
                       {idx !== arr.length - 1 && <div className="w-2/3 h-px bg-gradient-to-r from-blue-400/30 via-gray-400/10 to-cyan-400/30 my-2 mx-auto" />}
                     </div>
                   ))}
-                  {/* Social Icons with Labels */}
-                  <div className="w-full flex justify-center gap-7 mt-6 pt-4 border-t border-blue-900/30">
-                    <a
-                      href="https://github.com/yourusername"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex flex-col items-center text-gray-400 hover:text-blue-400 focus-visible:text-cyan-400 transition-all duration-200 p-3 rounded-full focus-visible:ring-2 focus-visible:ring-blue-400 outline-none shadow hover:shadow-blue-100 hover:scale-110"
-                      aria-label="GitHub"
-                      tabIndex={0}
-                    >
-                      <FiGithub className="h-8 w-8 mb-1" />
-                      <span className="text-xs font-mono text-blue-200">GitHub</span>
-                    </a>
-                    <a
-                      href="https://linkedin.com/in/yourusername"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex flex-col items-center text-gray-400 hover:text-blue-400 focus-visible:text-cyan-400 transition-all duration-200 p-3 rounded-full focus-visible:ring-2 focus-visible:ring-blue-400 outline-none shadow hover:shadow-blue-100 hover:scale-110"
-                      aria-label="LinkedIn"
-                      tabIndex={0}
-                    >
-                      <FiLinkedin className="h-8 w-8 mb-1" />
-                      <span className="text-xs font-mono text-blue-200">LinkedIn</span>
-                    </a>
-                    <a
-                      href="mailto:youremail@example.com"
-                      className="flex flex-col items-center text-gray-400 hover:text-blue-400 focus-visible:text-cyan-400 transition-all duration-200 p-3 rounded-full focus-visible:ring-2 focus-visible:ring-blue-400 outline-none shadow hover:shadow-blue-100 hover:scale-110"
-                      aria-label="Email"
-                      tabIndex={0}
-                    >
-                      <FiMail className="h-8 w-8 mb-1" />
-                      <span className="text-xs font-mono text-blue-200">Email</span>
-                    </a>
-                  </div>
+               
                 </div>
               </div>
             </>

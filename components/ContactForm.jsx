@@ -2,14 +2,10 @@
 
 import { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
-import { gsap } from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { FiSend, FiCheck, FiX } from 'react-icons/fi';
+import { FiSend, FiCheck, FiX, FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
 
 export default function ContactForm() {
   const formRef = useRef();
-  const successRef = useRef();
-  const errorRef = useRef();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -89,61 +85,65 @@ export default function ContactForm() {
     }, 500);
   };
 
-  useGSAP(() => {
-    const formElements = formRef.current?.querySelectorAll('input, textarea, select, button');
-    
-    if (formElements) {
-      gsap.set(formElements, { y: 20, opacity: 0 });
-      
-      gsap.to(formElements, {
-        y: 0,
-        opacity: 1,
-        duration: 0.5,
-        stagger: 0.1,
-        ease: 'power2.out',
-        delay: 0.3
-      });
-    }
-  }, { scope: formRef });
 
-  useGSAP(() => {
-    if (isSuccess || isError) {
-      const target = isSuccess ? successRef.current : errorRef.current;
-      if (target) {
-        gsap.fromTo(
-          target,
-          { y: -20, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' }
-        );
-      }
-    }
-  }, { dependencies: [isSuccess, isError] });
 
   return (
-    <section id="contact" className="py-20 bg-black overflow-hidden">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Get In Touch</h2>
-          <p className="text-xl text-gray-400">Ready to start your project? Let's talk!</p>
-          <div className="w-20 h-1 bg-blue-500 mx-auto mt-4"></div>
+    <section id="contact" className="relative py-24 bg-gradient-to-br from-gray-900 to-black overflow-hidden">
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-300">
+            Get In Touch
+          </h2>
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            Have a project in mind or want to discuss potential opportunities? I'd love to hear from you!
+          </p>
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto mt-6 rounded-full"></div>
         </div>
 
-        <div className="bg-gray-900 rounded-lg shadow-xl p-6 md:p-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+          {/* Contact Information */}
+          <div className="space-y-6">
+            <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all duration-300">
+              <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-900/30 to-cyan-900/30 mb-4">
+                <FiMail className="w-6 h-6 text-blue-400" />
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">Email Me</h3>
+              <p className="text-gray-300 hover:text-blue-400 transition-colors duration-300">
+                <a href="mailto:your.email@example.com">your.email@example.com</a>
+              </p>
+            </div>
+
+            <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all duration-300">
+              <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-900/30 to-cyan-900/30 mb-4">
+                <FiPhone className="w-6 h-6 text-blue-400" />
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">Call Me</h3>
+              <p className="text-gray-300 hover:text-blue-400 transition-colors duration-300">
+                <a href="tel:+1234567890">+1 (234) 567-890</a>
+              </p>
+            </div>
+
+            <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all duration-300">
+              <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-900/30 to-cyan-900/30 mb-4">
+                <FiMapPin className="w-6 h-6 text-blue-400" />
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">Location</h3>
+              <p className="text-gray-300">Islamabad, Pakistan</p>
+            </div>
+          </div>
+
+          {/* Contact Form */}
+          <div className="lg:col-span-2 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl shadow-xl p-6 md:p-8 hover:border-blue-500/30 transition-all duration-300">
           {isSuccess && (
-            <div
-              ref={successRef}
-              className="mb-6 p-4 bg-green-900/50 border border-green-500 rounded-md flex items-center opacity-0"
-            >
+            <div className="mb-6 p-4 bg-green-900/50 border border-green-500 rounded-md flex items-center">
               <FiCheck className="text-green-500 mr-2" />
               <span className="text-green-300">Your message has been sent successfully!</span>
             </div>
           )}
           
           {isError && (
-            <div
-              ref={errorRef}
-              className="mb-6 p-4 bg-red-900/50 border border-red-500 rounded-md flex items-center opacity-0"
-            >
+            <div className="mb-6 p-4 bg-red-900/50 border border-red-500 rounded-md flex items-center">
               <FiX className="text-red-500 mr-2" />
               <span className="text-red-300">Failed to send message. Please try again later.</span>
             </div>
@@ -229,21 +229,34 @@ export default function ContactForm() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                className={`w-full flex items-center justify-center px-6 py-4 text-base font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
+                  isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                }`}
               >
                 {isSubmitting ? (
-                  'Sending...'
+                  <>
+                    <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Sending...
+                  </>
                 ) : (
                   <>
                     <FiSend className="mr-2" />
-                    Send Message
+                    <span>Send Message</span>
                   </>
                 )}
               </button>
             </div>
           </form>
         </div>
+
       </div>
+      </div>
+
     </section>
+  
+
   );
 }

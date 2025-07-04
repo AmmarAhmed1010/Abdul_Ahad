@@ -26,6 +26,7 @@ export default function Hero() {
 
   return (
     <div
+      id="home"
       ref={heroRef}
       className="relative h-screen min-h-[600px] flex items-center justify-center bg-gradient-to-br from-blue-950 via-black to-cyan-900 text-white overflow-hidden"
     >
