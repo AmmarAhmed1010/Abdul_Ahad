@@ -21,24 +21,17 @@ export default function Home() {
       <main>
         {/* Full-page animated background */}
         <div className="fixed inset-0 w-full h-full z-[-1] pointer-events-none">
-          <Waves
-            lineColor="#1E90FF"
-            backgroundColor="rgba(173, 216, 230, 0.2)"
-            waveSpeedX={0.02}
-            waveSpeedY={0.01}
-            waveAmpX={40}
-            waveAmpY={20}
-            friction={0.9}
-            tension={0.01}
-            maxCursorMove={120}
-            xGap={12}
-            yGap={36}
-          />
-        </div>
+                  {/* Decorative background shapes */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-800 opacity-20 rounded-full blur-3xl animate-pulse-slow" />
+        <div className="absolute bottom-0 right-0 w-80 h-80 bg-cyan-400 opacity-10 rounded-full blur-2xl animate-pulse-slow" />
+      </div>
+
+       </div>
         <Hero />
-        <Skills />
         <AboutUs />
         <Projects />
+        <Skills />
         <Services />
         <ContactForm />
       </main>

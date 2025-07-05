@@ -31,12 +31,7 @@ export default function Hero() {
       ref={heroRef}
       className="relative h-screen min-h-[600px] flex items-center justify-center  text-black overflow-hidden"
     >
-      
-      {/* Decorative background shapes */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-800 opacity-20 rounded-full blur-3xl animate-pulse-slow" />
-        <div className="absolute bottom-0 right-0 w-80 h-80 bg-cyan-400 opacity-10 rounded-full blur-2xl animate-pulse-slow" />
-      </div>
+
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center text-center">
           <h1

@@ -94,6 +94,39 @@ export default function Navbar() {
   }, []);
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuPanelRef = useRef();
+  const overlayRef = useRef();
+  const hamburgerRef = useRef();
+  const topBar = useRef();
+  const midBar = useRef();
+  const botBar = useRef();
+
+  // Hamburger GSAP animation
+  useEffect(() => {
+    if (!hamburgerRef.current) return;
+    if (!topBar.current || !midBar.current || !botBar.current) return;
+    if (mobileMenuOpen) {
+      gsap.to(topBar.current, { y: 8, rotate: 45, duration: 0.4, ease: 'power2.inOut' });
+      gsap.to(midBar.current, { opacity: 0, duration: 0.2, ease: 'power2.inOut' });
+      gsap.to(botBar.current, { y: -8, rotate: -45, duration: 0.4, ease: 'power2.inOut' });
+    } else {
+      gsap.to(topBar.current, { y: 0, rotate: 0, duration: 0.4, ease: 'power2.inOut' });
+      gsap.to(midBar.current, { opacity: 1, duration: 0.2, ease: 'power2.inOut' });
+      gsap.to(botBar.current, { y: 0, rotate: 0, duration: 0.4, ease: 'power2.inOut' });
+    }
+  }, [mobileMenuOpen]);
+
+  // Menu panel GSAP animation
+  useEffect(() => {
+    if (!menuPanelRef.current || !overlayRef.current) return;
+    if (mobileMenuOpen) {
+      gsap.to(menuPanelRef.current, { x: 0, duration: 0.5, ease: 'power3.out' });
+      gsap.to(overlayRef.current, { opacity: 1, duration: 0.5, ease: 'power3.out', pointerEvents: 'auto' });
+    } else {
+      gsap.to(menuPanelRef.current, { x: '-100%', duration: 0.5, ease: 'power3.in' });
+      gsap.to(overlayRef.current, { opacity: 0, duration: 0.5, ease: 'power3.in', pointerEvents: 'none' });
+    }
+  }, [mobileMenuOpen]);
 
   return (
     <nav
@@ -134,27 +167,16 @@ export default function Navbar() {
             <span className="ml-1 text-blue-400 animate-pulse">_</span>
           </Link>
 
-          {/* Hamburger Icon for Mobile */}
+          {/* GSAP Hamburger Icon for Mobile */}
           <button
-            className="md:hidden flex items-center px-2 py-1 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+            ref={hamburgerRef}
+            className="md:hidden flex flex-col justify-center items-center w-10 h-10 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 bg-gray-800/80"
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             onClick={() => setMobileMenuOpen(v => !v)}
           >
-            <svg
-              className={`w-7 h-7 text-white transition-transform duration-200 ${mobileMenuOpen ? 'rotate-90' : ''}`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {mobileMenuOpen ? (
-                // X icon
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                // Hamburger icon
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
-              )}
-            </svg>
+            <span ref={topBar} className="block w-7 h-1 bg-blue-400 rounded transition-all" style={{marginBottom: 5}} />
+            <span ref={midBar} className="block w-7 h-1 bg-blue-400 rounded transition-all" style={{marginBottom: 5}} />
+            <span ref={botBar} className="block w-7 h-1 bg-blue-400 rounded transition-all" />
           </button>
 
           {/* Navigation Links - Desktop */}
@@ -180,61 +202,50 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Navigation Links - Mobile Dropdown */}
-          {mobileMenuOpen && (
-            <>
-              {/* Blurred Backdrop */}
-              <div
-                className="fixed inset-0 z-40 bg-black/40 backdrop-blur-[3px] animate-fade-in"
-                aria-hidden="true"
+          {/* GSAP Mobile Menu & Overlay */}
+          <div>
+            {/* Overlay (30vw blurred, closes menu) */}
+            <div
+              ref={overlayRef}
+              className="fixed top-0 right-0 h-screen z-40"
+              style={{ width: '30vw', background: 'rgba(16,23,42,0.5)', backdropFilter: 'blur(8px)', opacity: 0, pointerEvents: 'none', transition: 'opacity 0.3s' }}
+              aria-hidden="true"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            {/* Menu Panel (70vw solid) */}
+            <div
+              ref={menuPanelRef}
+              className="fixed top-0 left-0 h-screen z-50 md:hidden flex flex-col items-start py-10 px-6"
+              style={{ width: '70vw', background: '#181f2c', boxShadow: '2px 0 16px #0006', borderTopRightRadius: '1.5rem', borderBottomRightRadius: '1.5rem', transform: 'translateX(-100%)' }}
+            >
+              <button
+                className="absolute top-4 right-4 p-2 rounded-full bg-blue-900/30 hover:bg-blue-800/70 text-blue-300 hover:text-white shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                aria-label="Close menu"
                 onClick={() => setMobileMenuOpen(false)}
-              />
-              {/* Mobile Menu Panel */}
-              <div className="fixed top-0 left-0 w-full z-50 md:hidden flex justify-center items-start">
-                <div className="relative mt-4 w-[94vw] max-w-md bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-blue-900/90 backdrop-blur-2xl border border-blue-400/40 rounded-2xl shadow-2xl flex flex-col items-center py-7 px-2 gap-4 animate-slide-down-glass">
-                  {/* Close (X) Button */}
-                  <button
-                    className="absolute top-3 right-3 p-2 rounded-full bg-blue-900/30 hover:bg-blue-800/70 text-blue-300 hover:text-white shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-                    aria-label="Close menu"
-                    onClick={() => setMobileMenuOpen(false)}
+                tabIndex={0}
+              >
+                <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+              <nav className="w-full flex flex-col gap-6 mt-8">
+                {['home', 'about', 'projects', 'skills', 'contact'].map((item) => (
+                  <Link
+                    key={item}
+                    href={`#${item}`}
+                    className={`block w-full text-left font-mono text-xl font-semibold uppercase tracking-wider px-4 py-3 rounded-xl transition-all duration-300 focus-visible:ring-2 focus-visible:ring-blue-400 outline-none ${
+                      activeSection === item
+                        ? 'text-cyan-400 bg-blue-900/30 scale-105 translate-x-2'
+                        : 'text-white hover:text-blue-300 focus-visible:text-cyan-400'
+                    }`}
+                    aria-label={item.charAt(0).toUpperCase() + item.slice(1)}
                     tabIndex={0}
+                    onClick={() => setMobileMenuOpen(false)}
                   >
-                    <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                  </button>
-                  {/* Nav Links */}
-                  {['home', 'about', 'projects', 'skills', 'contact'].map((item, idx, arr) => (
-                    <div key={item} className="w-full flex flex-col items-center">
-                      <div className="relative w-full group">
-                        <div className={`absolute inset-0 bg-gradient-to-r from-blue-900/30 to-cyan-900/20 rounded-xl origin-left transition-transform duration-300 ease-out ${
-                          activeSection === item ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                        }`} />
-                        <Link
-                          href={`#${item}`}
-                          className={`relative block w-full text-center transition-all duration-300 font-mono text-xl font-semibold uppercase tracking-wider px-8 py-3 rounded-xl focus-visible:ring-2 focus-visible:ring-blue-400 outline-none ${
-                            activeSection === item
-                              ? 'text-cyan-400 scale-105 translate-x-2'
-                              : 'text-white hover:text-blue-300 focus-visible:text-cyan-400 group-hover:translate-x-2 group-hover:scale-[1.02]'
-                          } active:scale-95`}
-                          aria-label={item.charAt(0).toUpperCase() + item.slice(1)}
-                          tabIndex={0}
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          <span className="relative z-10 flex items-center justify-center gap-2">
-                            <span className="opacity-0 group-hover:opacity-100 text-blue-400 transition-opacity duration-300">
-                              &gt;
-                            </span>
-                            {item}
-                          </span>
-                        </Link>
-                      </div>
-                      {idx !== arr.length - 1 && <div className="w-2/3 h-px bg-gradient-to-r from-blue-400/30 via-gray-400/10 to-cyan-400/30 my-2 mx-auto" />}
-                    </div>
-                  ))}
-               
-                </div>
-              </div>
-            </>
-          )}
+                    {item}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+          </div>
 
 
           {/* Social Links */}

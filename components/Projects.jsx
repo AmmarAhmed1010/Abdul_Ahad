@@ -1,6 +1,8 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const projects = [
   {
@@ -82,31 +84,10 @@ const projects = [
   },
 ];
 
-// Animation variants
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.3
-    }
-  }
-};
-
-const item = {
-  hidden: { opacity: 0, y: 30 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.25, 0.1, 0.25, 1]
-    }
-  }
-};
-
 export default function Projects() {
+  useEffect(() => {
+    AOS.init({ once: true, duration: 700, offset: 80 });
+  }, []);
   return (
     <section id="projects" className="relative py-24 text-white overflow-hidden">
       {/* Animated background elements */}
@@ -116,50 +97,39 @@ export default function Projects() {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+        <h2
           className="text-4xl md:text-5xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-300"
+          data-aos="fade-up"
         >
           My Projects
-        </motion.h2>
-        <motion.p 
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+        </h2>
+        <p
           className="text-lg text-gray-300 text-center mb-16 max-w-2xl mx-auto"
+          data-aos="fade-up"
+          data-aos-delay="100"
         >
           Some of my recent work and side projects
-        </motion.p>
+        </p>
 
-        <motion.div 
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
+        <div 
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {projects.map((project, idx) => (
-            <motion.div
+            <div
               key={project.name + idx}
-              variants={item}
-              whileHover={{ y: -10, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
               className="group relative h-full"
+              data-aos="fade-up"
+              data-aos-delay={150 + idx * 90}
             >
               <div className="absolute inset-0.5 rounded-2xl bg-gradient-to-br from-blue-900/20 to-cyan-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <div className="relative bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6 h-full flex flex-col group-hover:border-blue-500/30 transition-all duration-300">
                 <div className="flex-1">
-                  <h3 className="text-2xl font-semibold mb-3 group-hover:text-blue-400 transition-colors duration-300">{project.name}</h3>
+                  <h3 className="text-2xl font-semibold mb-3 text-blue-400 transition-colors duration-300">{project.name}</h3>
                   <p className="text-gray-300 mb-5 leading-relaxed">{project.description}</p>
                   <div className="flex flex-wrap gap-2 mb-5">
                     {project.tags.map((tag, i) => (
-                      <motion.span
+                      <span
                         key={tag.name + i}
-                        whileHover={{ scale: 1.05 }}
                         className={
                           "inline-block px-3 py-1 rounded-full text-xs font-semibold shadow-lg " +
                           (tag.color === "blue-text-gradient"
@@ -172,7 +142,7 @@ export default function Projects() {
                         }
                       >
                         #{tag.name}
-                      </motion.span>
+                      </span>
                     ))}
                   </div>
                 </div>
@@ -190,9 +160,9 @@ export default function Projects() {
                   </a>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

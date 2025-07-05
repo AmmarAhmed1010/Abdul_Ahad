@@ -1,8 +1,10 @@
 'use client';
 
+import { useEffect } from 'react';
 import { FaHtml5, FaCss3Alt, FaJs, FaReact, FaGitAlt } from 'react-icons/fa';
 import { SiNextdotjs, SiRedux, SiTailwindcss, SiTypescript, SiJest, SiFigma } from 'react-icons/si';
-import { motion } from 'framer-motion';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import Waves from './Waves';
 
 const skills = [
@@ -45,50 +47,40 @@ const item = {
 };
 
 export default function Skills() {
+  useEffect(() => {
+    AOS.init({ once: true, duration: 700, offset: 80 });
+  }, []);
   return (
     <section 
       id="skills" 
       className="relative py-24 text-white scroll-mt-24"
     >
-        
-
-
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          <h2 
             className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-300"
+            data-aos="fade-up"
           >
             My Skills
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+          </h2>
+          <p 
             className="text-lg text-gray-300 max-w-2xl mx-auto"
+            data-aos="fade-up"
+            data-aos-delay="100"
           >
             Technologies I've been working with recently
-          </motion.p>
+          </p>
         </div>
 
-        <motion.div 
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
+        <div 
           className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 lg:gap-8"
         >
-          {skills.map((skill) => (
-            <motion.div
+          {skills.map((skill, idx) => (
+            <div
               key={skill.name}
-              variants={item}
-              whileHover={{ y: -8, scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
               className="group relative"
+              data-aos="fade-up"
+              data-aos-delay={100 + idx * 60}
             >
               <div className={`absolute inset-0.5 rounded-2xl bg-gradient-to-br ${skill.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
               <div 
@@ -105,9 +97,9 @@ export default function Skills() {
                   {skill.name}
                 </span>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
