@@ -3,6 +3,7 @@
 import { FaHtml5, FaCss3Alt, FaJs, FaReact, FaGitAlt } from 'react-icons/fa';
 import { SiNextdotjs, SiRedux, SiTailwindcss, SiTypescript, SiJest, SiFigma } from 'react-icons/si';
 import { motion } from 'framer-motion';
+import Waves from './Waves';
 
 const skills = [
   { name: 'HTML5', icon: <FaHtml5 className="text-orange-500" />, color: 'from-orange-500/20 to-orange-600/10' },
@@ -47,14 +48,10 @@ export default function Skills() {
   return (
     <section 
       id="skills" 
-      className="relative py-24 bg-gradient-to-br from-gray-950 via-gray-900 to-blue-950 text-white overflow-hidden scroll-mt-24"
+      className="relative py-24 text-white scroll-mt-24"
     >
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 rounded-full filter blur-3xl opacity-20 animate-blob"></div>
-        <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-purple-500/10 rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-cyan-500/10 rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
-      </div>
+        
+
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">

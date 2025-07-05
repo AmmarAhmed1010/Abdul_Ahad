@@ -88,9 +88,9 @@ export default function ContactForm() {
 
 
   return (
-    <section id="contact" className="relative py-24 bg-gradient-to-br from-gray-900 to-black overflow-hidden">
+    <section id="contact" className="relative py-24 overflow-hidden">
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-0 sm:mx-auto px-0  sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-300">
             Get In Touch
@@ -101,40 +101,9 @@ export default function ContactForm() {
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto mt-6 rounded-full"></div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+        <div className="flex flex-col md:flex-row w-full gap-8 md:gap-12 items-center md:items-start overflow-x-auto">
           {/* Contact Information */}
-          <div className="space-y-6">
-            <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all duration-300">
-              <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-900/30 to-cyan-900/30 mb-4">
-                <FiMail className="w-6 h-6 text-blue-400" />
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Email Me</h3>
-              <p className="text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                <a href="mailto:your.email@example.com">your.email@example.com</a>
-              </p>
-            </div>
-
-            <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all duration-300">
-              <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-900/30 to-cyan-900/30 mb-4">
-                <FiPhone className="w-6 h-6 text-blue-400" />
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Call Me</h3>
-              <p className="text-gray-300 hover:text-blue-400 transition-colors duration-300">
-                <a href="tel:+1234567890">+1 (234) 567-890</a>
-              </p>
-            </div>
-
-            <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all duration-300">
-              <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-900/30 to-cyan-900/30 mb-4">
-                <FiMapPin className="w-6 h-6 text-blue-400" />
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Location</h3>
-              <p className="text-gray-300">Islamabad, Pakistan</p>
-            </div>
-          </div>
-
-          {/* Contact Form */}
-          <div className="lg:col-span-2 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl shadow-xl p-6 md:p-8 hover:border-blue-500/30 transition-all duration-300">
+          <div className="w-full  bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 hover:border-blue-500/30 transition-all duration-300">
           {isSuccess && (
             <div className="mb-6 p-4 bg-green-900/50 border border-green-500 rounded-md flex items-center">
               <FiCheck className="text-green-500 mr-2" />
@@ -229,9 +198,10 @@ export default function ContactForm() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`w-full flex items-center justify-center px-6 py-4 text-base font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
+                className={`w-full flex items-center justify-center px-6 py-4 text-base font-medium rounded-xl text-white animated-gradient-btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
                   isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
                 }`}
+
               >
                 {isSubmitting ? (
                   <>

@@ -5,6 +5,7 @@ import Services from '../components/Services';
 import AboutUs from '../components/AboutUs';
 import Projects from '../components/Projects';
 import ContactForm from '../components/ContactForm';
+import Waves from '../components/Waves';
 
 export const metadata = {
   title: 'Web Development Services | Custom Websites',
@@ -13,9 +14,27 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-black text-white">
+    
+    <div className="">
+   
       <Navbar />
       <main>
+        {/* Full-page animated background */}
+        <div className="fixed inset-0 w-full h-full z-[-1] pointer-events-none">
+          <Waves
+            lineColor="#1E90FF"
+            backgroundColor="rgba(173, 216, 230, 0.2)"
+            waveSpeedX={0.02}
+            waveSpeedY={0.01}
+            waveAmpX={40}
+            waveAmpY={20}
+            friction={0.9}
+            tension={0.01}
+            maxCursorMove={120}
+            xGap={12}
+            yGap={36}
+          />
+        </div>
         <Hero />
         <Skills />
         <AboutUs />

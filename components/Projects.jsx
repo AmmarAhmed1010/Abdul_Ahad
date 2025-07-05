@@ -108,7 +108,7 @@ const item = {
 
 export default function Projects() {
   return (
-    <section id="projects" className="relative py-24 bg-gradient-to-br from-gray-900 via-gray-900 to-blue-950 text-white overflow-hidden">
+    <section id="projects" className="relative py-24 text-white overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 rounded-full filter blur-3xl opacity-20 animate-blob"></div>

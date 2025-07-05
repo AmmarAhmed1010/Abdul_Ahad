@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
+import Waves from './Waves';
 
 export default function Hero() {
   const heroRef = useRef();
@@ -28,8 +29,9 @@ export default function Hero() {
     <div
       id="home"
       ref={heroRef}
-      className="relative h-screen min-h-[600px] flex items-center justify-center bg-gradient-to-br from-blue-950 via-black to-cyan-900 text-white overflow-hidden"
+      className="relative h-screen min-h-[600px] flex items-center justify-center  text-black overflow-hidden"
     >
+      
       {/* Decorative background shapes */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-800 opacity-20 rounded-full blur-3xl animate-pulse-slow" />
@@ -45,14 +47,14 @@ export default function Hero() {
           </h1>
           <p
             ref={textRef}
-            className="text-lg sm:text-xl md:text-2xl text-gray-200 mb-12 max-w-2xl mx-auto opacity-0"
+            className="text-lg sm:text-xl md:text-2xl text-blue-400 mb-12 max-w-2xl mx-auto opacity-0"
           >
             Let's build something amazing together. Get a <span className="text-cyan-300 font-semibold">professional website</span> that converts visitors into customers.
           </p>
           <a
             ref={buttonRef}
             href="#contact"
-            className="bg-gradient-to-r from-blue-600 via-cyan-500 to-teal-400 hover:from-blue-700 hover:via-cyan-600 hover:to-teal-500 text-white font-bold py-4 px-10 rounded-full text-lg shadow-lg transition-all duration-300 inline-block opacity-0 focus-visible:ring-2 focus-visible:ring-cyan-400 outline-none"
+            className="animated-gradient-btn text-white font-bold py-4 px-10 rounded-full text-lg shadow-lg transition-all duration-300 inline-block opacity-0 focus-visible:ring-2 focus-visible:ring-cyan-400 outline-none"
           >
             Start Your Project
           </a>

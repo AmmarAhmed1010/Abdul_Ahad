@@ -53,7 +53,7 @@ export default function Services() {
   ];
 
   return (
-    <section id="services" className="relative py-24 bg-gradient-to-br from-gray-900 via-gray-900 to-blue-950 overflow-hidden">
+    <section id="services" className="relative py-24overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -left-40 w-80 h-80 bg-blue-500/10 rounded-full filter blur-3xl opacity-20 animate-blob"></div>
