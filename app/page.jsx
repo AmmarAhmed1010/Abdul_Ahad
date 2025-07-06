@@ -7,10 +7,12 @@ import Projects from '../components/Projects';
 import ContactForm from '../components/ContactForm';
 import Waves from '../components/Waves';
 
-export const metadata = {
-  title: 'Web Development Services | Custom Websites',
-  description: 'Professional web development services to help your business grow online. Get a custom website that converts visitors into customers.',
-};
+  export const metadata = {
+    title: 'Web Development Services | Custom Websites',
+    description: 'Professional web development services to help your business grow online. Get a custom website that converts visitors into customers.',
+  };
+
+
 
 export default function Home() {
   return (

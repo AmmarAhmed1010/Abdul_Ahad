@@ -6,13 +6,15 @@ export const metadata = {
   viewport: 'width=device-width, initial-scale=1',
   themeColor: '#000000',
   icons: {
-    icon: '/favicon.ico',
+    icon: '/vercel.png',
   },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+        <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+
       <body>
         {children}
       </body>

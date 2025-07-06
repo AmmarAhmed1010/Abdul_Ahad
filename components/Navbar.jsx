@@ -157,6 +157,7 @@ export default function Navbar() {
               });
             }}
           >
+            <img src="/logo.svg" alt="Brand logo" className="h-8 w-8 mr-2 rounded-full" />
             <FiTerminal className="h-7 w-7 md:h-8 md:w-8 text-blue-400 drop-shadow-md mr-2 group-hover:scale-110 transition-transform duration-300" />
             <span
               ref={brandRef}
